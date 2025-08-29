@@ -2,7 +2,7 @@
 
 import { Hint } from "@/components/hint";
 // import { Hint } from "@/components/hint";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CreateOrganization } from "@clerk/nextjs";
 import { Plus } from "lucide-react";
 
@@ -26,6 +26,9 @@ export const NewButton = () => {
                 </div>
             </DialogTrigger>
             <DialogContent className="p-0 bg-transparent border-none max-w-[480px]">
+            <DialogHeader>
+                    <DialogTitle className="sr-only">Create New Item</DialogTitle>
+                </DialogHeader>
                 <CreateOrganization />
             </DialogContent>
         </Dialog>
