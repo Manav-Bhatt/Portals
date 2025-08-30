@@ -1,3 +1,5 @@
+// in your components/loading.tsx (or wherever this file is)
+
 import Image from "next/image";
 
 export const Loading = () => {
@@ -8,7 +10,8 @@ export const Loading = () => {
                 width={120}
                 height={120}
                 alt="Logo"
-                className="animate-pulse duration-700"
+                // Change animate-pulse to animate-spin
+                className="animate-spin duration-700" // You can adjust duration, e.g., 'duration-1000'
             />
         </div>
     );

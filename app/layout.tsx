@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { ConvexClientProvider } from "@/providers/convex-client-provider";
-
-const geistSans = Geist({
+import { Toaster } from "@/components/ui/sonner";
+const geistSans = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
+const geistMono = Inter({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
@@ -29,7 +29,14 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ConvexClientProvider>
-        {children}
+
+
+          <Toaster />
+
+
+          {children}
+
+
         </ConvexClientProvider>
       </body>
     </html>
