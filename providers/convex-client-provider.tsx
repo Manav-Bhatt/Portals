@@ -1,8 +1,14 @@
+// FILE: providers/convex-client-provider.tsx (The Fix)
 "use client";
 
-import { ClerkProvider, useAuth } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
-import { AuthLoading, Authenticated, ConvexReactClient } from "convex/react";
+import { 
+    AuthLoading, 
+    Authenticated, 
+    Unauthenticated, // <-- 1. Import Unauthenticated
+    ConvexReactClient 
+} from "convex/react";
 import { Loading } from "@/components/auth/loading";
 
 interface ConvexClientProviderProps {
@@ -17,13 +23,18 @@ export const ConvexClientProvider = ({
     children,
 }: ConvexClientProviderProps) => {
     return (
-        <ClerkProvider>
-            <ConvexProviderWithClerk useAuth={useAuth} client={convex}>
-                <Authenticated>{children}</Authenticated>
-                <AuthLoading>
-                    <Loading />
-                </AuthLoading>
-            </ConvexProviderWithClerk>
-        </ClerkProvider>
+        // 2. We have REMOVED the extra <ClerkProvider> from here
+        <ConvexProviderWithClerk useAuth={useAuth} client={convex}>
+            <AuthLoading>
+                <Loading />
+            </AuthLoading>
+            <Authenticated>
+                {children}
+            </Authenticated>
+            <Unauthenticated> 
+                {children} 
+            </Unauthenticated> 
+            {/* ^-- 3. We tell the app to also render children when unauthenticated */}
+        </ConvexProviderWithClerk>
     );
 };

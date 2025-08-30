@@ -8,6 +8,8 @@ export const Logo = () => {
                 width={150}
                 height={150}
                 alt="Logo"
+                className="animate-spin duration-300"
+
 
             />
         </div>
