@@ -113,13 +113,13 @@ export const Actions = ({
                     description={
 
 
-                        <div>
+                        <span>
 
 
                             To confirm, type <span className="font-semibold">{title}</span> in the box below
 
 
-                        </div>
+                        </span>
 
 
                     }
