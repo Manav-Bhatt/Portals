@@ -9,9 +9,9 @@ export const EmptyFavorites = () => {
                 height={140}
                 width={140}
             />
-            <h2 className="text-2xl font-semibold mt-6">No favorite boards!</h2>
+            <h2 className="text-2xl font-semibold mt-6">No favorite Portals!</h2>
             <p className="text-muted-foreground text-sm mt-2">
-                Try favoriting a board
+                Try favoriting a Portal
             </p>
         </div>
     );

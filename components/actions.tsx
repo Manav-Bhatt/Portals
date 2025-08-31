@@ -51,10 +51,10 @@ export const Actions = ({
         mutate({ id })
 
 
-            .then(() => toast.success("Board deleted!"))
+            .then(() => toast.success("Portal deleted!"))
 
 
-            .catch(() => toast.error("Failed to delete board"));
+            .catch(() => toast.error("Failed to delete Portal"));
 
 
     };
@@ -104,70 +104,64 @@ export const Actions = ({
                 <DropdownMenuSeparator />
 
 
-<ConfirmModal
+                <ConfirmModal
 
 
-    header={`Delete board?`}
+                    header={`Delete board?`}
 
 
-    description={
+                    description={
 
 
-        <div>
+                        <div>
 
 
-To confirm, type{" "}
+                            To confirm, type <span className="font-semibold">{title}</span> in the box below
 
 
-<span className="font-semibold">{title}</span> in
+                        </div>
 
 
-the box below
+                    }
 
 
-        </div>
+                    disabled={pending}
 
 
-    }
+                    onConfirm={onDelete}
 
 
-    disabled={pending}
+                    title={title}
 
 
-    onConfirm={onDelete}
+                >
 
 
-    title={title}
+                    <Button
 
 
->
+                        variant="ghost"
 
 
-    <Button
+                        className="p-2 cursor-pointer text-rose-600 text-sm w-full justify-start font-normal"
 
 
-        variant="ghost"
+                        // onClick={onDelete}
 
 
-        className="p-2 cursor-pointer text-rose-600 text-sm w-full justify-start font-normal"
+                    >
 
 
-        // onClick={onDelete}
+                        <Trash2 className="h-4 w-4 mr-2" />
 
 
-    >
+                        Delete
 
 
-        <Trash2 className="h-4 w-4 mr-2" />
+                    </Button>
 
 
-        Delete
-
-
-    </Button>
-
-
-</ConfirmModal>
+                </ConfirmModal>
             </DropdownMenuContent>
         </DropdownMenu>
     );

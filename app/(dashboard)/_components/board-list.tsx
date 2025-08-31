@@ -9,17 +9,15 @@ import { BoardCard } from "./board-card";
 import { NewBoardButton } from "./new-board-button";
 
 interface BoardListProps {
-orgId: string;
-query: {
-search?: string;
-favorites?: boolean;
-};
+    orgId: string;
+    query: {
+        search?: string;
+        favorites?: string;
+    };
 }
 
 export const BoardList = ({ orgId, query }: BoardListProps) => {
-    const data = useQuery(api.boards.get, {
-        orgId,
-    });
+    const data = useQuery(api.boards.get, { orgId, ...query });
 
     if (data === undefined) {
         return (
@@ -43,7 +41,13 @@ export const BoardList = ({ orgId, query }: BoardListProps) => {
                     <NewBoardButton orgId={orgId} disabled />
 
 
-                    {[...Array(9)].map((_, index) => <BoardCard.Skeleton key={index} />)}
+                    {[...Array(9)].map((_, index) => (
+
+
+                        <BoardCard.Skeleton key={index} />
+
+
+                    ))}
 
 
                 </div>
@@ -55,15 +59,15 @@ export const BoardList = ({ orgId, query }: BoardListProps) => {
         );
     }
 
-if (!data.length && query.search) {
-return <EmptySearch />;
-}
-if (!data.length && query.favorites) {
-return <EmptyFavorites />;
-}
-if (!data.length) {
-return <EmptyBoards />;
-}
+    if (!data.length && query.search) {
+        return <EmptySearch />;
+    }
+    if (!data.length && query.favorites) {
+        return <EmptyFavorites />;
+    }
+    if (!data.length) {
+        return <EmptyBoards />;
+    }
 
 
     return (
@@ -84,7 +88,7 @@ return <EmptyBoards />;
                             authorName={board.authorName}
                             createdAt={board._creationTime}
                             orgId={board.orgId}
-                            isFavorite={false}
+                            isFavorite={board.isFavorite}
                         />
                     );
                 })}

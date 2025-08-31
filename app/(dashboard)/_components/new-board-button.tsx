@@ -5,6 +5,7 @@ import { useApiMutation } from "@/hooks/use-api-mutation";
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+
 import { toast } from "sonner";
 
 interface NewBoardButtonProps {
@@ -20,8 +21,7 @@ export const NewBoardButton = ({ orgId, disabled }: NewBoardButtonProps) => {
         mutate({ orgId, title: "Untitled" })
             .then((id) => {
                 toast.success("Portal created!");
-                // TODO: redirect to the new board
-                // router.push(`/board/${id}`);
+                router.push(`/board/${id}`);
             })
             .catch(() => toast.error("Failed to create portal"));
     };
