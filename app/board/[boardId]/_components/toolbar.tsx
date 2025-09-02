@@ -1,5 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { ToolButton } from "./tool-button";
+import { CanvasMode, CanvasState, LayerType } from "@/types/canvas";
 
 
 import {
@@ -30,7 +31,55 @@ import {
 
 
 } from "lucide-react";
-const Toolbar = () => {
+interface ToolbarProps {
+
+
+    canvasState: CanvasState;
+
+
+    setCanvasState: (newState: CanvasState) => void;
+
+
+    undo: () => void;
+
+
+    redo: () => void;
+
+
+    canUndo: boolean;
+
+
+    canRedo: boolean;
+
+
+}
+
+
+
+
+
+const Toolbar = ({
+
+
+    canvasState,
+
+
+    setCanvasState,
+
+
+    undo,
+
+
+    redo,
+
+
+    canUndo,
+
+
+    canRedo,
+
+
+}: ToolbarProps) => {
     return (
         <div className="absolute top-[50%] -translate-y-[50%] left-2 flex flex-col gap-y-4">
             <div className="bg-white rounded-md p-1.5 flex gap-1 flex-col items-center shadow-md">
@@ -44,10 +93,28 @@ label="Select"
 icon={MousePointer2}
 
 
-onClick={() => {}}
+onClick={() => setCanvasState({ mode: CanvasMode.None })}
 
 
-isActive={false}
+isActive={
+
+
+    canvasState.mode === CanvasMode.None ||
+
+
+    canvasState.mode === CanvasMode.Translating ||
+
+
+    canvasState.mode === CanvasMode.SelectionNet ||
+
+
+    canvasState.mode === CanvasMode.Pressing ||
+
+
+    canvasState.mode === CanvasMode.Resizing
+
+
+}
 
 
 />
@@ -62,11 +129,34 @@ label="Text"
 icon={TypeIcon}
 
 
-onClick={() => {}}
+onClick={() =>
 
 
-isActive={false}
+    setCanvasState({
 
+
+        layerType: LayerType.Text,
+
+
+        mode: CanvasMode.Inserting,
+
+
+    })
+
+
+}
+
+
+isActive={
+
+
+    canvasState.mode === CanvasMode.Inserting &&
+
+
+    canvasState.layerType === LayerType.Text
+
+
+}
 
 />
 
@@ -80,11 +170,34 @@ label="Sticky Notes"
 icon={StickyNote}
 
 
-onClick={() => {}}
+onClick={() =>
 
 
-isActive={false}
+    setCanvasState({
 
+
+        mode: CanvasMode.Inserting,
+
+
+        layerType: LayerType.Note,
+
+
+    })
+
+
+}
+
+
+isActive={
+
+
+    canvasState.mode === CanvasMode.Inserting &&
+
+
+    canvasState.layerType === LayerType.Note
+
+
+}
 
 />
 
@@ -98,10 +211,34 @@ label="Rectangle"
 icon={Square}
 
 
-onClick={() => {}}
+onClick={() =>
 
 
-isActive={false}
+    setCanvasState({
+
+
+        mode: CanvasMode.Inserting,
+
+
+        layerType: LayerType.Rectangle,
+
+
+    })
+
+
+}
+
+
+isActive={
+
+
+    canvasState.mode === CanvasMode.Inserting &&
+
+
+    canvasState.layerType === LayerType.Rectangle
+
+
+}
 
 
 />
@@ -116,10 +253,34 @@ label="Ellipse"
 icon={Circle}
 
 
-onClick={() => {}}
+onClick={() =>
 
 
-isActive={false}
+    setCanvasState({
+
+
+        mode: CanvasMode.Inserting,
+
+
+        layerType: LayerType.Ellipse,
+
+
+    })
+
+
+}
+
+
+isActive={
+
+
+    canvasState.mode === CanvasMode.Inserting &&
+
+
+    canvasState.layerType === LayerType.Ellipse
+
+
+}
 
 
 />
@@ -134,10 +295,22 @@ label="Pen"
 icon={Pencil}
 
 
-onClick={() => {}}
+onClick={() =>
 
 
-isActive={false}
+    setCanvasState({
+
+
+        mode: CanvasMode.Pencil,
+
+
+    })
+
+
+}
+
+
+isActive={canvasState.mode === CanvasMode.Pencil}
 
 
 />
@@ -153,11 +326,10 @@ isActive={false}
 
     icon={Undo2}
 
+    onClick={undo}
 
-    onClick={() => {}}
 
-
-    isDisabled={true}
+    isDisabled={!canUndo}
 
 
 />
@@ -172,10 +344,10 @@ isActive={false}
     icon={Redo2}
 
 
-    onClick={() => {}}
+    onClick={redo}
 
 
-    isDisabled={true}
+    isDisabled={!canRedo}
 
 
 />
