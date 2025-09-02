@@ -61,7 +61,7 @@ import { LiveObject } from "@liveblocks/client";
 
 
 import { LayerPreview } from "./layer-preview";
-import { set } from "date-fns";
+import { SelectionBox } from "./selection-box";
 
 
 
@@ -513,6 +513,7 @@ style={{
 
 })}
 
+<SelectionBox onResizeHandlePointerDown={() => {}} />
 
                     <CursorsPresence />
 
