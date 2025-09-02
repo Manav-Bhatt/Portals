@@ -27,6 +27,7 @@ interface ActionProps {
     children: React.ReactNode;
     side?: DropdownMenuContentProps["side"];
     sideOffset?: DropdownMenuContentProps["sideOffset"];
+    alignOffset?: DropdownMenuContentProps["alignOffset"];
     id: string;
     title: string;
 }
@@ -37,6 +38,7 @@ export const Actions = ({
     sideOffset,
     id,
     title,
+    alignOffset,
 }: ActionProps) => {
     const { onOpen } = useRenameModal();
     const { mutate, pending } = useApiMutation(api.board.remove);
@@ -73,7 +75,7 @@ export const Actions = ({
                 sideOffset={sideOffset}
                 align="end"
                 className="w-50"
-                alignOffset={22}
+                alignOffset={alignOffset}
             >
                 <DropdownMenuItem
                     className="p-2 cursor-pointer"

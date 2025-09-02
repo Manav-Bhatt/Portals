@@ -97,7 +97,10 @@ export const remove = mutation({
 
 
         }
+        const board = await ctx.db.get(args.id);
 
+
+        if (board?.authorId !== userId) throw new Error("Unauthorized");
 
         await ctx.db.delete(args.id);
 
