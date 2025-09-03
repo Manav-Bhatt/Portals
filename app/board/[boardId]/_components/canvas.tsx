@@ -36,7 +36,7 @@ import {
 
 } from "@/types/canvas";
 
-
+import { SelectionTools } from "./selection-tools";
 import {
 
 
@@ -297,6 +297,19 @@ export const Canvas = ({ boardId }: CanvasProps) => {
 
 
     );
+    const unSelectLayers = useMutation(({ setMyPresence, self }) => {
+
+
+        if (self.presence.selection.length > 0) {
+
+
+            setMyPresence({ selection: [] }, { addToHistory: true });
+
+
+        }
+
+
+    }, []);
     const resizeSelectedLayer = useMutation(
 
 
@@ -471,6 +484,49 @@ export const Canvas = ({ boardId }: CanvasProps) => {
 
 
     }, []);
+    const onPointerDown = useCallback(
+
+
+
+        (e: React.PointerEvent) => {
+
+
+            if (canvasState.mode === CanvasMode.Inserting) {
+
+
+                return;
+
+
+            }
+
+
+
+
+
+            const point = pointerEventToCanvasPoint(e, camera);
+
+
+
+
+
+            // TODO: Add case for drawing
+
+
+
+
+
+            setCanvasState({ mode: CanvasMode.Pressing, origin: point });
+
+
+        },
+
+
+        [camera, canvasState.mode, setCanvasState]
+
+
+    );
+
+
     
     const onPointerUp = useMutation(
 
@@ -482,7 +538,26 @@ export const Canvas = ({ boardId }: CanvasProps) => {
             const point = pointerEventToCanvasPoint(e, camera);
 
 
-            if (canvasState.mode === CanvasMode.Inserting) {
+            if (
+
+
+
+                canvasState.mode === CanvasMode.None ||
+
+
+                canvasState.mode === CanvasMode.Pressing
+
+
+            ) {
+
+
+                unSelectLayers();
+
+
+                setCanvasState({ mode: CanvasMode.None });
+
+
+            } else if (canvasState.mode === CanvasMode.Inserting) {
 
 
                 insertLayer(canvasState.layerType, point);
@@ -503,7 +578,7 @@ export const Canvas = ({ boardId }: CanvasProps) => {
         },
 
 
-        [camera, canvasState, history, insertLayer]
+        [camera, canvasState, history, insertLayer, unSelectLayers]
 
 
     );
@@ -643,6 +718,16 @@ redo={history.redo}
 
 
 />
+<SelectionTools
+
+
+camera={camera}
+
+
+setLastUsedColor={setLastUsedColor}
+
+
+/>
 <svg
 
 
@@ -657,6 +742,7 @@ redo={history.redo}
 
                 onPointerLeave={onPointerLeave}
                 onPointerUp={onPointerUp}
+                onPointerDown={onPointerDown}
 
 
             >
