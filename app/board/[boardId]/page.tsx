@@ -8,14 +8,19 @@ interface BoardIdPageProps {
     params: { boardId: string };
 }
 
-const BoardIdPage = ({ params }: BoardIdPageProps) => {
+// 1. Added the "async" keyword
+const BoardIdPage = async ({ params }: BoardIdPageProps) => {
+    // 2. "await"-ed the params promise to get the actual values
+    const resolvedParams = await params;
+    
     return (
 
 
-        <Room roomId={params.boardId} fallback={<Loading />}>
+        // 3. Used the new "resolvedParams" variable
+        <Room roomId={resolvedParams.boardId} fallback={<Loading />}>
 
 
-            <Canvas boardId={params.boardId} />
+            <Canvas boardId={resolvedParams.boardId} />
 
 
         </Room>
