@@ -28,6 +28,10 @@ import {
 
 
     Point,
+    Side,
+
+
+    XYWH,
 
 
 } from "@/types/canvas";
@@ -56,7 +60,19 @@ import {
 import { CursorsPresence } from "./cursors-presence";
 
 
-import { connectionIdToColor, pointerEventToCanvasPoint } from "@/lib/utils";
+import {
+
+
+    connectionIdToColor,
+
+
+    pointerEventToCanvasPoint,
+
+
+    resizeBounds,
+
+
+} from "@/lib/utils";
 import { LiveObject } from "@liveblocks/client";
 
 
@@ -208,6 +224,176 @@ export const Canvas = ({ boardId }: CanvasProps) => {
 
 
     );
+    const translateSelectedLayers = useMutation(
+
+
+        ({ storage, self }, point: Point) => {
+
+
+            if (canvasState.mode !== CanvasMode.Translating) {
+
+
+                return;
+
+
+            }
+
+
+
+
+
+            const offset = {
+
+
+                x: point.x - canvasState.current.x,
+
+
+                y: point.y - canvasState.current.y,
+
+
+            };
+
+
+
+
+
+            const liveLayers = storage.get("layers");
+
+
+            for (const id of self.presence.selection) {
+
+
+                const layer = liveLayers.get(id);
+
+
+                if (layer) {
+
+
+                    layer.update({
+
+
+                        x: layer.get("x") + offset.x,
+
+
+                        y: layer.get("y") + offset.y,
+
+
+                    });
+
+
+                }
+
+
+            }
+
+
+            setCanvasState({ mode: CanvasMode.Translating, current: point });
+
+
+        },
+
+
+        [canvasState]
+
+
+    );
+    const resizeSelectedLayer = useMutation(
+
+
+        ({ storage, self }, point: Point) => {
+
+
+            if (canvasState.mode !== CanvasMode.Resizing) {
+
+
+                return;
+
+
+            }
+
+
+
+
+
+            const bounds = resizeBounds(
+
+
+                canvasState.initialBounds,
+
+
+                canvasState.corner,
+
+
+                point
+
+
+            );
+
+
+
+
+
+            const liveLayers = storage.get("layers");
+
+
+            const layer = liveLayers.get(self.presence.selection[0]);
+
+
+
+
+
+            if (layer) {
+
+
+                layer.update(bounds);
+
+
+            }
+
+
+        },
+
+
+        [canvasState]
+
+
+    );
+
+
+
+
+
+    const onResizeHandlePointerDown = useCallback(
+
+
+        (corner: Side, initialBounds: XYWH) => {
+
+
+            history.pause();
+
+
+            setCanvasState({
+
+
+                mode: CanvasMode.Resizing,
+
+
+                initialBounds,
+
+
+                corner,
+
+
+            });
+
+
+        },
+
+
+        [history]
+
+
+    );
 
 
     const onWheel = useCallback((e: React.WheelEvent) => {
@@ -248,6 +434,19 @@ export const Canvas = ({ boardId }: CanvasProps) => {
 
 
             const current = pointerEventToCanvasPoint(e, camera);
+            if (canvasState.mode === CanvasMode.Translating) {
+
+
+                translateSelectedLayers(current);
+
+
+            } else if (canvasState.mode === CanvasMode.Resizing) {
+
+
+                resizeSelectedLayer(current);
+
+
+            }
 
 
             setMyPresence({ cursor: current });
@@ -256,7 +455,7 @@ export const Canvas = ({ boardId }: CanvasProps) => {
         },
 
 
-        []
+        [canvasState, resizeSelectedLayer, camera, translateSelectedLayers]
 
 
     );
@@ -513,7 +712,13 @@ style={{
 
 })}
 
-<SelectionBox onResizeHandlePointerDown={() => {}} />
+<SelectionBox
+
+
+                        onResizeHandlePointerDown={onResizeHandlePointerDown}
+
+
+                    />
 
                     <CursorsPresence />
 
