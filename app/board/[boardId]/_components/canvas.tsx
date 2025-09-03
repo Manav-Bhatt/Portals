@@ -106,13 +106,13 @@ export const Canvas = ({ boardId }: CanvasProps) => {
     const [lastUsedColor, setLastUsedColor] = useState<Color>({
 
 
-        r: 0,
+        r: 255,
 
 
-        g: 0,
+        g: 235,
 
 
-        b: 0,
+        b: 205,
 
 
     });
