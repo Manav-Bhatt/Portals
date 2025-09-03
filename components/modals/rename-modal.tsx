@@ -9,7 +9,7 @@ import {
     DialogHeader,
 } from "@/components/ui/dialog";
 import { api } from "@/convex/_generated/api";
-import { useApiMutation } from "@/hooks/use-api-mutation";
+import { useApiMutation } from "@/app/hooks/use-api-mutation";
 import { useRenameModal } from "@/store/use-rename-modal";
 import { FormEventHandler, useEffect, useState } from "react";
 import { toast } from "sonner";

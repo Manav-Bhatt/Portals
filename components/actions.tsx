@@ -1,6 +1,8 @@
 "use client";
 
 import { DropdownMenuContentProps } from "@radix-ui/react-dropdown-menu";
+// CHANGE 1: Import the 'Id' type from Convex.
+import { Id } from "@/convex/_generated/dataModel";
 
 import {
     DropdownMenu,
@@ -11,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import { Link2, Pencil, Trash2 } from "lucide-react";
-import { useApiMutation } from "@/hooks/use-api-mutation";
+import { useApiMutation } from "@/app/hooks/use-api-mutation";
 import { useRenameModal } from "@/store/use-rename-modal";
 
 
@@ -28,7 +30,8 @@ interface ActionProps {
     side?: DropdownMenuContentProps["side"];
     sideOffset?: DropdownMenuContentProps["sideOffset"];
     alignOffset?: DropdownMenuContentProps["alignOffset"];
-    id: string;
+    // CHANGE 2: Update the 'id' prop to the correct 'Id<"boards">' type.
+    id: Id<"boards">;
     title: string;
 }
 
@@ -43,22 +46,10 @@ export const Actions = ({
     const { onOpen } = useRenameModal();
     const { mutate, pending } = useApiMutation(api.board.remove);
 
-
-
-
-
     const onDelete = () => {
-
-
         mutate({ id })
-
-
             .then(() => toast.success("Portal deleted!"))
-
-
             .catch(() => toast.error("Failed to delete Portal"));
-
-
     };
     const onCopyLink = () => {
         navigator.clipboard
@@ -85,84 +76,32 @@ export const Actions = ({
                     Copy board link
                 </DropdownMenuItem>
                 <DropdownMenuItem
-
-
                     className="p-2 cursor-pointer"
-
-
                     onClick={() => onOpen(id, title)}
-
-
                 >
-
-
                     <Pencil className="h-4 w-4 mr-2" />
-
-
                     Rename
-
-
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-
-
                 <ConfirmModal
-
-
                     header={`Delete board?`}
-
-
                     description={
-
-
                         <span>
-
-
                             To confirm, type <span className="font-semibold">{title}</span> in the box below
-
-
                         </span>
-
-
                     }
-
-
                     disabled={pending}
-
-
                     onConfirm={onDelete}
-
-
                     title={title}
-
-
                 >
-
-
                     <Button
-
-
                         variant="ghost"
-
-
                         className="p-2 cursor-pointer text-rose-600 text-sm w-full justify-start font-normal"
-
-
                         // onClick={onDelete}
-
-
                     >
-
-
                         <Trash2 className="h-4 w-4 mr-2" />
-
-
                         Delete
-
-
                     </Button>
-
-
                 </ConfirmModal>
             </DropdownMenuContent>
         </DropdownMenu>

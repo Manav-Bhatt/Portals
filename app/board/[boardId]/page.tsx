@@ -5,7 +5,7 @@ import { Room } from "@/components/room";
 import { Loading } from "./_components/loading";
 
 interface BoardIdPageProps {
-    params: { boardId: string };
+    params: Promise<{ boardId: string }>;
 }
 
 // 1. Added the "async" keyword

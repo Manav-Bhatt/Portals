@@ -1,14 +1,18 @@
 import { create } from "zustand";
+// CHANGE 1: Import the 'Id' type from Convex's generated data model.
+import { Id } from "@/convex/_generated/dataModel";
 
 const defaultValues = {
-    id: "",
+    // CHANGE 2: Update the default 'id' to be typed as an Id<"boards">.
+    id: "" as Id<"boards">,
     title: "",
 };
 
 interface IRenameModal {
     isOpen: boolean;
     initialValues: typeof defaultValues;
-    onOpen: (id: string, title: string) => void;
+    // CHANGE 3: Update the 'onOpen' function to expect the correct Id type.
+    onOpen: (id: Id<"boards">, title: string) => void;
     onClose: () => void;
 }
 

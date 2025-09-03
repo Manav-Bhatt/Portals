@@ -19,7 +19,7 @@ const geistMono = Inter({
 
 export const metadata: Metadata = {
   title: "Portals",
-  description: "boards with portals",
+  description: "Enter into Portals with your team!",
 };
 
 export default function RootLayout({

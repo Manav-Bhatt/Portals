@@ -4,7 +4,7 @@ import Info from "./info";
 import Participants from "./participants";
 import Toolbar from "./toolbar";
 import React, { useCallback, useMemo, useState, useEffect } from "react";
-import { useDisableScrollBounce } from "@/hooks/use-disable-scroll-bounce";
+import { useDisableScrollBounce } from "@/app/hooks/use-disable-scroll-bounce";
 
 
 import { nanoid } from "nanoid";
@@ -1059,7 +1059,7 @@ export const Canvas = ({ boardId }: CanvasProps) => {
 
             switch (e.key) {
 
-
+                
                 case "z": {
 
 

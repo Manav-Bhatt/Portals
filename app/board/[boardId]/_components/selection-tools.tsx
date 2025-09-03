@@ -1,11 +1,11 @@
 "use client";
 
-import { useSelectionBounds } from "@/hooks/use-selection-bounds";
+import { useSelectionBounds } from "@/app/hooks/use-selection-bounds";
 import { useMutation, useSelf } from "@/liveblocks.config";
 import { Camera, Color } from "@/types/canvas";
 import { memo } from "react";
 import { ColorPicker } from "./color-picker";
-import { useDeleteLayers } from "@/hooks/use-delete-layers";
+import { useDeleteLayers } from "@/app/hooks/use-delete-layers";
 
 
 import { Button } from "@/components/ui/button";
@@ -37,7 +37,7 @@ export const SelectionTools = memo(
                 const indices: number[] = [];
 
 
-                const arr = liveLayerIds.toArray();
+                const arr = liveLayerIds.toImmutable();
 
 
 
@@ -103,7 +103,7 @@ export const SelectionTools = memo(
                 const indices: number[] = [];
 
 
-                const arr = liveLayerIds.toArray();
+                const arr = liveLayerIds.toImmutable();
 
 
 

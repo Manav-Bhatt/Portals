@@ -67,7 +67,7 @@ export const Note = ({
                     font.className
                 )}
                 style={{
-                    color: fill ? getContrastingTextColor(fill) : "#fff",
+                    color: fill ? getContrastingTextColor(fill) : "#000",
                     fontSize: calculateFontSize(width, height),
                 }}
             />
